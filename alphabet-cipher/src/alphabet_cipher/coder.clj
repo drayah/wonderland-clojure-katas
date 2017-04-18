@@ -1,5 +1,8 @@
 (ns alphabet-cipher.coder)
 
+(def alphabet 
+  "abcdefghijklmnopqrstuvwxyz")
+
 (defn encode [keyword message]
   "encodeme")
 
