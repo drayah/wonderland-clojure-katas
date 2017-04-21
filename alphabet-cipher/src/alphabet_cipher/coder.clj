@@ -1,4 +1,5 @@
-(ns alphabet-cipher.coder)
+(ns alphabet-cipher.coder
+  (:require [clojure.string :as str]))
 
 (def alphabet 
   "abcdefghijklmnopqrstuvwxyz")
@@ -16,7 +17,7 @@
       (cycle alphabet)
       (drop n)
       (take length)
-      (clojure.string/join))))
+      (str/join))))
 
 (defn encode [keyword message]
   "encodeme")
