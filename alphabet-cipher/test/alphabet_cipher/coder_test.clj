@@ -2,6 +2,17 @@
   (:require [clojure.test :refer :all]
             [alphabet-cipher.coder :refer :all]))
 
+(deftest test-index-of
+  (testing "should return index of character in alphabet"
+    (is (= 0
+           (index-of "a")))
+    (is (= 1
+           (index-of "b")))
+    (is (= 18
+           (index-of "s")))
+    (is (= 25
+           (index-of "z")))))
+
 (deftest test-rotate-alphabet
   (testing "should slide an alphabet by a number of characters"
     (is (= "abcdefghijklmnopqrstuvwxyz"

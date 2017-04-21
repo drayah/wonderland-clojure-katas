@@ -3,6 +3,11 @@
 (def alphabet 
   "abcdefghijklmnopqrstuvwxyz")
 
+(defn index-of
+  "Returns index of character in alphabet"
+  [character]
+  (.indexOf alphabet character))
+
 (defn rotate-alphabet
   "Rotate alphabet by n characters"
   [alphabet n]
