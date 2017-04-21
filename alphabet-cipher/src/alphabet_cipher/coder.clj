@@ -31,6 +31,15 @@
       (rotate-alphabet index-c2)
       (first))))
 
+(defn encode-sequence
+  "Returns an encoded string given
+  a sequence of interleaved characters"
+  [coll]
+  (let [pairs (partition 2 coll)]
+    (->
+      (map #(encode-character (first %) (second %)) pairs)
+      (str/join))))
+
 (defn encode [keyword message]
   "encodeme")
 

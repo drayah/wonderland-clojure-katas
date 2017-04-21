@@ -37,6 +37,11 @@
     (is (= \g
            (encode-character \n \t)))))
 
+(deftest test-encode-sequence
+  (testing "should encode a sequence of interleaved characters"
+    (is (= "egsg"
+           (encode-sequence [\s \m \c \e \o \e \n \t])))))
+
 (comment
   (deftest test-encode
     (testing "can encode given a secret keyword"
