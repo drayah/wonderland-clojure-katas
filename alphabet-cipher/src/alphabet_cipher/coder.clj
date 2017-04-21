@@ -40,12 +40,15 @@
       (map #(encode-character (first %) (second %)) pairs)
       (str/join))))
 
-(defn encode [keyword message]
-  "encodeme")
+(defn encode 
+  "Encodes a message given a keyword"
+  [keyword message]
+  (->
+    (interleave (cycle keyword) message)
+    (encode-sequence)))
 
 (defn decode [keyword message]
   "decodeme")
 
 (defn decipher [cipher message]
   "decypherme")
-

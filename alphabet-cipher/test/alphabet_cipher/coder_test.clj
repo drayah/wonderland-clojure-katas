@@ -42,14 +42,14 @@
     (is (= "egsg"
            (encode-sequence [\s \m \c \e \o \e \n \t])))))
 
-(comment
-  (deftest test-encode
-    (testing "can encode given a secret keyword"
-      (is (= "hmkbxebpxpmyllyrxiiqtoltfgzzv"
-            (encode "vigilance" "meetmeontuesdayeveningatseven")))
-      (is (= "egsgqwtahuiljgs"
-            (encode "scones" "meetmebythetree")))))
+(deftest test-encode
+  (testing "can encode given a secret keyword"
+    (is (= "hmkbxebpxpmyllyrxiiqtoltfgzzv"
+          (encode "vigilance" "meetmeontuesdayeveningatseven")))
+    (is (= "egsgqwtahuiljgs"
+          (encode "scones" "meetmebythetree")))))
 
+(comment
   (deftest test-decode
     (testing "can decode an encrypted message given a secret keyword"
       (is (= "meetmeontuesdayeveningatseven"
