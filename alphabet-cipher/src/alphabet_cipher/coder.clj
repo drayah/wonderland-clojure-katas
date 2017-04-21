@@ -19,6 +19,18 @@
       (take length)
       (str/join))))
 
+(defn encode-character
+  "Returns an encoded character given 
+  one character of a keyword and 
+  one character of a message"
+  [c1 c2]
+  (let [index-c1 (index-of (str c1))
+        index-c2 (index-of (str c2))]
+    (->
+      (rotate-alphabet alphabet index-c1)
+      (rotate-alphabet index-c2)
+      (first))))
+
 (defn encode [keyword message]
   "encodeme")
 

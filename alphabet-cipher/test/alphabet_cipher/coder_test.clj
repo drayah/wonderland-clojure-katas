@@ -26,6 +26,17 @@
     (is (= "efghijklmnopqrstuvwxyzabcd"
            (rotate-alphabet "stuvwxyzabcdefghijklmnopqr" 12)))))
 
+(deftest test-encode-characters
+  (testing "should encode a single character"
+    (is (= \e
+           (encode-character \s \m)))
+    (is (= \g
+           (encode-character \c \e)))
+    (is (= \s
+           (encode-character \o \e)))
+    (is (= \g
+           (encode-character \n \t)))))
+
 (comment
   (deftest test-encode
     (testing "can encode given a secret keyword"
