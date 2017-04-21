@@ -3,6 +3,16 @@
 (def alphabet 
   "abcdefghijklmnopqrstuvwxyz")
 
+(defn rotate-alphabet
+  "Rotate alphabet by n characters"
+  [alphabet n]
+  (let [length (count alphabet)]
+    (->>
+      (cycle alphabet)
+      (drop n)
+      (take length)
+      (clojure.string/join))))
+
 (defn encode [keyword message]
   "encodeme")
 
