@@ -5,13 +5,15 @@
 (deftest test-index-of
   (testing "should return index of character in alphabet"
     (is (= 0
-           (index-of "a")))
+           (index-of alphabet "a")))
     (is (= 1
-           (index-of "b")))
+           (index-of alphabet \b)))
     (is (= 18
-           (index-of "s")))
+           (index-of alphabet \s)))
     (is (= 25
-           (index-of "z")))))
+           (index-of alphabet \z)))
+    (is (= 25
+           (index-of alphabet "z")))))
 
 (deftest test-rotate-alphabet
   (testing "should slide an alphabet by a number of characters"
@@ -26,7 +28,7 @@
     (is (= "efghijklmnopqrstuvwxyzabcd"
            (rotate-alphabet "stuvwxyzabcdefghijklmnopqr" 12)))))
 
-(deftest test-encode-characters
+(deftest test-encode-character
   (testing "should encode a single character"
     (is (= \e
            (encode-character \s \m)))
@@ -37,10 +39,21 @@
     (is (= \g
            (encode-character \n \t)))))
 
-(deftest test-encode-sequence
+(deftest test-decode-character
+  (testing "should decode a single character"
+    (is (= \m
+           (decode-character \s \e)))
+    (is (= \e
+           (decode-character \c \g)))
+    (is (= \e
+           (decode-character \o \s)))))
+
+(deftest test-encode-decode
   (testing "should encode a sequence of interleaved characters"
     (is (= "egsg"
-           (encode-sequence [\s \m \c \e \o \e \n \t])))))
+           (encode-decode encode-character [\s \m \c \e \o \e \n \t])))
+    (is (= "meet"
+           (encode-decode decode-character [\s \e \c \g \o \s \n \g])))))
 
 (deftest test-encode
   (testing "can encode given a secret keyword"
@@ -49,14 +62,14 @@
     (is (= "egsgqwtahuiljgs"
           (encode "scones" "meetmebythetree")))))
 
-(comment
-  (deftest test-decode
-    (testing "can decode an encrypted message given a secret keyword"
-      (is (= "meetmeontuesdayeveningatseven"
-            (decode "vigilance" "hmkbxebpxpmyllyrxiiqtoltfgzzv")))
-      (is (= "meetmebythetree"
-            (decode "scones" "egsgqwtahuiljgs")))))
+(deftest test-decode
+  (testing "can decode an encrypted message given a secret keyword"
+    (is (= "meetmeontuesdayeveningatseven"
+          (decode "vigilance" "hmkbxebpxpmyllyrxiiqtoltfgzzv")))
+    (is (= "meetmebythetree"
+          (decode "scones" "egsgqwtahuiljgs")))))
 
+(comment
   (deftest test-decipher
     (testing "can extract the secret keyword given an encrypted message and the original message"
       (is (= "vigilance"
