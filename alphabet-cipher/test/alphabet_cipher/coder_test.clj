@@ -48,6 +48,17 @@
     (is (= \e
            (decode-character \o \s)))))
 
+(deftest test-decipher-character
+  (testing "should decipher a single character"
+    (is (= \s
+           (decipher-character \e \m)))
+    (is (= \c
+           (decipher-character \g \e)))
+    (is (= \o
+           (decipher-character \s \e)))
+    (is (= \n
+           (decipher-character \g \t)))))
+
 (deftest test-encode-decode
   (testing "should encode a sequence of interleaved characters"
     (is (= "egsg"
@@ -69,10 +80,14 @@
     (is (= "meetmebythetree"
           (decode "scones" "egsgqwtahuiljgs")))))
 
-(comment
-  (deftest test-decipher
-    (testing "can extract the secret keyword given an encrypted message and the original message"
-      (is (= "vigilance"
-            (decipher "opkyfipmfmwcvqoklyhxywgeecpvhelzg" "thequickbrownfoxjumpsoveralazydog")))
-      (is (= "scones"
-            (decipher "hcqxqqtqljmlzhwiivgbsapaiwcenmyu" "packmyboxwithfivedozenliquorjugs"))))))
+(deftest test-extract-keyword
+  (testing "should extract a keyword from a repeated keyword sequence"
+    (is (= [\s \c \o \n \e \s]
+           (:keyword (extract-keyword [\s \c \o \n \e \s \s \c] "egsgqwta" "meetmeby"))))))
+
+(deftest test-decipher
+  (testing "can extract the secret keyword given an encrypted message and the original message"
+    (is (= "vigilance"
+           (decipher "opkyfipmfmwcvqoklyhxywgeecpvhelzg" "thequickbrownfoxjumpsoveralazydog")))
+    (is (= "scones"
+           (decipher "hcqxqqtqljmlzhwiivgbsapaiwcenmyu" "packmyboxwithfivedozenliquorjugs")))))

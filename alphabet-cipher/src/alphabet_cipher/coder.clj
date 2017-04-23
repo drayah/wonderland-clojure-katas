@@ -41,6 +41,35 @@
         decoded (nth alphabet index-c2)]
     decoded))
 
+(defn decipher-character
+  "Returns a keyword character given
+  one character of a ciphertext and
+  one character of an original message"
+  [cipher-char message-char]
+  (let [rotated (rotate-alphabet alphabet (index-of alphabet message-char))
+        index (index-of rotated cipher-char)]
+    (nth alphabet index)))
+
+(declare encode)
+
+(defn extract-keyword
+  "Extracts a keyword given a sequence of
+  repeated keyword characters a cipher and
+  a message"
+  [characters cipher message]
+  (reduce (fn [result character] 
+            (let [keyword (:keyword result)
+                  done (:done result)]
+              (if done
+                result
+                (if (= (first keyword) character) 
+                  (let [test-keyword (str/join keyword)
+                        encoded (encode test-keyword message)]
+                    (if (= encoded cipher) 
+                      (assoc result :done true)
+                      (assoc result :keyword (conj keyword character))))
+                  (assoc result :keyword (conj keyword character)))))) {:done false :keyword []} characters))
+
 (defn encode-decode
   "Returns an encoded or decoded string given
   an encoder or decoder function and a sequence 
@@ -65,5 +94,11 @@
     (interleave (cycle keyword) message)
     (encode-decode decode-character)))
 
-(defn decipher [cipher message]
-  "decypherme")
+(defn decipher 
+  "Decipher used keyword given ciphertext and original message"
+  [cipher message]
+  (let [cipher-seq (seq cipher)
+        message-seq (seq message)
+        keyword-seq (map decipher-character cipher-seq message-seq)]
+    (str/join 
+      (:keyword (extract-keyword keyword-seq cipher message)))))
