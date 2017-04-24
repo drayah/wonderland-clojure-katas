@@ -10,7 +10,7 @@
     (apply = sets)))
 
 (defn wonderland-number
-  "Generate wonderland nubmer"
+  "Generate wonderland number"
   []
   (let [number (for [n candidates
                      :let [n2 (* 2 n)
