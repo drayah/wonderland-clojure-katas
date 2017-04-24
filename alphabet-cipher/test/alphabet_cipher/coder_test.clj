@@ -82,8 +82,8 @@
 
 (deftest test-extract-keyword
   (testing "should extract a keyword from a repeated keyword sequence"
-    (is (= [\s \c \o \n \e \s]
-           (:keyword (extract-keyword [\s \c \o \n \e \s \s \c] "egsgqwta" "meetmeby"))))))
+    (is (= "scones"
+           (extract-keyword [\s \c \o \n \e \s \s \c] "egsgqwta" "meetmeby")))))
 
 (deftest test-decipher
   (testing "can extract the secret keyword given an encrypted message and the original message"

@@ -53,15 +53,14 @@
 (declare encode)
 
 (defn extract-keyword
-  "Extracts a keyword given a sequence of
-  repeated keyword characters a cipher and
-  a message"
+  "Extracts a keyword given a sequence of repeated
+  keyword characters a cipher and a message"
   [characters cipher message]
   (reduce (fn [result character] 
             (let [keyword (:keyword result)
                   done (:done result)]
               (if done
-                result
+                (reduced (str/join keyword))
                 (if (= (first keyword) character) 
                   (let [test-keyword (str/join keyword)
                         encoded (encode test-keyword message)]
@@ -100,5 +99,4 @@
   (let [cipher-seq (seq cipher)
         message-seq (seq message)
         keyword-seq (map decipher-character cipher-seq message-seq)]
-    (str/join 
-      (:keyword (extract-keyword keyword-seq cipher message)))))
+    (extract-keyword keyword-seq cipher message)))
