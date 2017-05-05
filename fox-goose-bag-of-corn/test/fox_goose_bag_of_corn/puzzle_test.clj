@@ -14,12 +14,34 @@
         (is (contains? (set diffs) :you)))
       step2)))
 
+(deftest test-invalid-left-right?
+  (testing "should return true when fox alone with goose"
+    (is (true? (invalid-left-right? [:fox :goose]))))
+  (testing "should return true when goose alone with corn"
+    (is (true? (invalid-left-right? [:goose :corn]))))
+  (testing "should return true when fox, goose and corn alone"
+    (is (true? (invalid-left-right? [:goose :fox :corn]))))
+  (testing "should return false when fox alone with corn"
+    (is (false? (invalid-left-right? [:fox :corn]))))
+  (testing "should return false when fox, you and goose together"
+    (is (false? (invalid-left-right? [:fox :goose :you]))))
+  (testing "should return false when fox, corn and you together"
+    (is (false? (invalid-left-right? [:you :fox :corn]))))
+  (testing "should return false when fox, you, goose and corn together"
+    (is (false? (invalid-left-right? [:fox :you :corn :goose])))))
+
 (deftest test-generate-left-to-mid-positions
   (testing "should generate correct positions when moving :you left to mid"
     (let [positions (set (generate-left-to-mid-positions [:you :fox :goose :corn] [:boat] []))]
       (is (contains? positions [[:fox :corn] [:boat :you :goose] []]))
       (is (contains? positions [[:goose :corn] [:boat :you :fox] []]))
-      (is (contains? positions [[:fox :goose] [:boat :you :corn] []])))))
+      (is (contains? positions [[:fox :goose] [:boat :you :corn] []]))
+      (is (contains? positions [[:fox :goose :corn] [:boat :you] []])))
+    (let [positions (set (generate-left-to-mid-positions [:you :goose] [:boat] [:corn :fox]))]
+      (is (contains? positions [[] [:boat :you :goose] [:corn :fox]]))
+      (is (contains? positions [[:goose] [:boat :you] [:corn :fox]])))))
+
+;test valid-position?
 
 (comment
   (deftest test-river-crossing-plan
