@@ -63,9 +63,21 @@
       (is (contains? positions [[] [:boat :you :goose] [:corn :fox]]))
       (is (contains? positions [[:goose] [:boat :you] [:corn :fox]])))))
 
-;(def test-valid-position?
- ; (testing "should return true for valid positions"
-  ;  (is (true? (valid-position? [[:fox :corn] [:boat :you] [:goose]])))))
+(deftest test-valid-position?
+  (testing "should return true for valid positions"
+    (is (true? (valid-position? [[:fox :corn] [:boat :you] [:goose]])))
+    (is (true? (valid-position? [[] [:boat] [:you :fox :goose :corn]])))
+    (is (true? (valid-position? [[:fox] [:boat] [:goose :you :corn]])))
+    (is (true? (valid-position? [[:you :goose] [:boat] [:corn :fox]])))
+    (is (true? (valid-position? [[] [:boat :you :goose] [:corn :fox]])))
+    (is (true? (valid-position? [[:goose] [:boat :you] [:corn :fox]]))))
+  (testing "should return false for invalid positions"
+    (is (false? (valid-position? [[] [] []])))
+    (is (false? (valid-position? [[:fox :goose] [:boat] [:you :corn]])))
+    (is (false? (valid-position? [[:fox :goose] [:boat :you :corn] []])))
+    (is (false? (valid-position? [[] [:boat :you :fox] [:goose :corn]])))
+    (is (false? (valid-position? [[:corn :goose] [:boat :you :fox] []])))
+    (is (false? (valid-position? [[:fox :goose :corn] [:boat :you] []])))))
 
 (comment
   (deftest test-river-crossing-plan
