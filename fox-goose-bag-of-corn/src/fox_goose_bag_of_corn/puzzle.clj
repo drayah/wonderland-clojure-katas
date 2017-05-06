@@ -5,7 +5,7 @@
 (def end-pos [[[] [:boat] [:fox :goose :corn :you]]])
 
 (defn invalid-left-right?
-  "Returns true if given left or right position is inconsistent with rules of game"
+  "Returns true if given left or right position is not consistent with rules of game"
   [side]
   (let [elements (set side)
         length (count elements)]
@@ -15,7 +15,15 @@
       (and (= length 3) (contains? elements :fox) (contains? elements :goose) (contains? elements :corn)) true
       :else false)))
 
-;invalid-mid?
+(defn invalid-mid?
+  "Returns true if given mid position is not consistent with rules of game"
+  [mid]
+  (let [elements (set mid)
+        length (count elements)]
+    (cond
+      (and (= length 1) (contains? elements :boat)) true
+      (and (> length 1) (< length 4) (contains? elements :boat) (contains? elements :you)) true
+      :else false)))
 
 (defn valid-position?
   "Returns true if given position is consistent with rules of game"

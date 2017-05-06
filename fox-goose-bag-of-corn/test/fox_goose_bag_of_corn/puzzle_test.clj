@@ -30,6 +30,28 @@
   (testing "should return false when fox, you, goose and corn together"
     (is (false? (invalid-left-right? [:fox :you :corn :goose])))))
 
+(deftest test-invalid-mid?
+  (testing "should return true when boat"
+    (is (true? (invalid-mid? [:boat]))))
+  (testing "should return true when boat and you"
+    (is (true? (invalid-mid? [:you :boat]))))
+  (testing "should return true when boat, you and fox"
+    (is (true? (invalid-mid? [:you :fox :boat]))))
+  (testing "should return true when boat, you and corn"
+    (is (true? (invalid-mid? [:you :corn :boat]))))
+  (testing "should return true when boat, you and goose"
+    (is (true? (invalid-mid? [:you :goose :boat]))))
+  (testing "should return false when boat, you, goose and corn"
+    (is (false? (invalid-mid? [:you :goose :corn :boat]))))
+  (testing "should return false when empty"
+    (is (false? (invalid-mid? []))))
+  (testing "should return false when you"
+    (is (false? (invalid-mid? [:you]))))
+  (testing "should return false when you and corn"
+    (is (false? (invalid-mid? [:you :corn]))))
+  (testing "should return false when fox and goose"
+    (is (false? (invalid-mid? [:fox :goose])))))
+    
 (deftest test-generate-left-to-mid-positions
   (testing "should generate correct positions when moving :you left to mid"
     (let [positions (set (generate-left-to-mid-positions [:you :fox :goose :corn] [:boat] []))]
