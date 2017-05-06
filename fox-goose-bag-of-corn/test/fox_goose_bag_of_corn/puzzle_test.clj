@@ -31,26 +31,26 @@
     (is (false? (invalid-left-right? [:fox :you :corn :goose])))))
 
 (deftest test-invalid-mid?
-  (testing "should return true when boat"
-    (is (true? (invalid-mid? [:boat]))))
-  (testing "should return true when boat and you"
-    (is (true? (invalid-mid? [:you :boat]))))
-  (testing "should return true when boat, you and fox"
-    (is (true? (invalid-mid? [:you :fox :boat]))))
-  (testing "should return true when boat, you and corn"
-    (is (true? (invalid-mid? [:you :corn :boat]))))
-  (testing "should return true when boat, you and goose"
-    (is (true? (invalid-mid? [:you :goose :boat]))))
-  (testing "should return false when boat, you, goose and corn"
-    (is (false? (invalid-mid? [:you :goose :corn :boat]))))
-  (testing "should return false when empty"
-    (is (false? (invalid-mid? []))))
-  (testing "should return false when you"
-    (is (false? (invalid-mid? [:you]))))
-  (testing "should return false when you and corn"
-    (is (false? (invalid-mid? [:you :corn]))))
-  (testing "should return false when fox and goose"
-    (is (false? (invalid-mid? [:fox :goose])))))
+  (testing "just the boat should be valid"
+    (is (false? (invalid-mid? [:boat]))))
+  (testing "just you and the boat should be valid"
+    (is (false? (invalid-mid? [:you :boat]))))
+  (testing "you, fox and the boat should be valid"
+    (is (false? (invalid-mid? [:you :fox :boat]))))
+  (testing "boat, you and corn should be valid"
+    (is (false? (invalid-mid? [:you :corn :boat]))))
+  (testing "boat, you and goose should be valid"
+    (is (false? (invalid-mid? [:you :goose :boat]))))
+  (testing "boat, you, goose and corn should be invalid"
+    (is (true? (invalid-mid? [:you :goose :corn :boat]))))
+  (testing "empty collection should be invalid"
+    (is (true? (invalid-mid? []))))
+  (testing "just you should be invalid"
+    (is (true? (invalid-mid? [:you]))))
+  (testing "you and corn should be invalid"
+    (is (true? (invalid-mid? [:you :corn]))))
+  (testing "fox and goose should be invalid"
+    (is (true? (invalid-mid? [:fox :goose])))))
     
 (deftest test-generate-left-to-mid-positions
   (testing "should generate correct positions when moving :you left to mid"
@@ -63,7 +63,9 @@
       (is (contains? positions [[] [:boat :you :goose] [:corn :fox]]))
       (is (contains? positions [[:goose] [:boat :you] [:corn :fox]])))))
 
-;test valid-position?
+;(def test-valid-position?
+ ; (testing "should return true for valid positions"
+  ;  (is (true? (valid-position? [[:fox :corn] [:boat :you] [:goose]])))))
 
 (comment
   (deftest test-river-crossing-plan

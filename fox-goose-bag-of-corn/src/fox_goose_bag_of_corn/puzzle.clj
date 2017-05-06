@@ -21,8 +21,7 @@
   (let [elements (set mid)
         length (count elements)]
     (cond
-      (and (= length 1) (contains? elements :boat)) true
-      (and (> length 1) (< length 4) (contains? elements :boat) (contains? elements :you)) true
+      (or (< length 1) (> length 3) (not (contains? elements :boat))) true
       :else false)))
 
 (defn valid-position?
@@ -33,8 +32,8 @@
         right (nth position 2)]
     (and
       (not (invalid-left-right? left))
+      (not (invalid-mid? mid))
       (not (invalid-left-right? right)))))
-      ;test mid
 
 (defn generate-left-to-mid-positions
   "Generate all positions we can reach by performing moves from left to mid"
