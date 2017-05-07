@@ -28,7 +28,9 @@
   (testing "should return false when fox, corn and you together"
     (is (false? (invalid-left-right? [:you :fox :corn]))))
   (testing "should return false when fox, you, goose and corn together"
-    (is (false? (invalid-left-right? [:fox :you :corn :goose])))))
+    (is (false? (invalid-left-right? [:fox :you :corn :goose]))))
+  (testing "should return false when empty"
+    (is (false? (invalid-left-right? [])))))
 
 (deftest test-invalid-mid?
   (testing "just the boat should be valid"
