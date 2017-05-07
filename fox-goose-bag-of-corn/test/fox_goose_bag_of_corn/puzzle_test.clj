@@ -116,10 +116,10 @@
     (is (false? (valid-position? [[:goose :fox] [:boat :you] [:corn]])))
     (is (false? (valid-position? [[:goose :fox] [:boat :you :corn] []])))))
 
-(deftest test-as-set
-  (testing "should transform a vector of vectors to a set of sets"
-    (is (= #{#{:b :a} #{:d :c} #{:e}} (as-set [[:a :b] [:c :d] [:e]])))
-    (is (= #{#{:a :b} #{:c :d} #{}} (as-set [[:a :b] [:c :d] []])))))
+(deftest test-normalized-position
+  (testing "should transform a vector of vectors to a vector of sets"
+    (is (= [#{:b :a} #{:d :c} #{:e}] (normalized-position [[:a :b] [:c :d] [:e]])))
+    (is (= [#{:a :b} #{:c :d} #{}] (normalized-position [[:a :b] [:c :d] []])))))
 
 (comment
   (deftest test-river-crossing-plan

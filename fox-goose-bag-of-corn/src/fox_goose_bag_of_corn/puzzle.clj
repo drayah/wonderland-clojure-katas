@@ -2,8 +2,6 @@
 
 (def start-pos [[[:fox :goose :corn :you] [:boat] []]])
 
-(def end-pos [[[] [:boat] [:fox :goose :corn :you]]])
-
 (defn invalid-left-right?
   "Returns true if given left or right position is not consistent with rules of game"
   [side]
@@ -83,16 +81,22 @@
       (some #{:you} right) (filter valid-position? (generate-right-to-mid-positions left mid right))
       :else (filter valid-position? (generate-mid-to-left-right-positions left mid right)))))
 
-(defn as-set
-  "Transform a vector of vectors to a set of sets"
+(defn normalized-position
+  "Transform a vector of vectors to a vector of sets"
   [coll]
-  (into #{} (map #(into #{} %) coll)))
+  (into [] (map #(into #{} %) coll)))
 
 (defn generate-plan
   "Generate a river crossing solution"
-  [route])
+  [route goal]
+  (println goal)
+  (println (last route))
+  (println (normalized-position goal))
+  (normalized-position (last route)))
+
+(def end-pos [[[] [:boat] [:fox :goose :corn :you]]])
 
 (defn river-crossing-plan 
   "Generate the river crossing"
   []
-  start-pos)
+  (generate-plan start-pos [[] [:boat] [:fox :goose :corn :you]]))
