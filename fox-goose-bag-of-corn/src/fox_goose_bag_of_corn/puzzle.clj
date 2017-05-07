@@ -81,7 +81,16 @@
     (cond
       (some #{:you} left) (filter valid-position? (generate-left-to-mid-positions left mid right))
       (some #{:you} right) (filter valid-position? (generate-right-to-mid-positions left mid right))
-      :else "generate moves from mid to left,right")))
+      :else (filter valid-position? (generate-mid-to-left-right-positions left mid right)))))
+
+(defn as-set
+  "Transform a vector of vectors to a set of sets"
+  [coll]
+  (into #{} (map #(into #{} %) coll)))
+
+(defn generate-plan
+  "Generate a river crossing solution"
+  [route])
 
 (defn river-crossing-plan 
   "Generate the river crossing"
