@@ -76,6 +76,26 @@
       (is (contains? positions [[:goose :fox] [:boat :you] [:corn]]))
       (is (contains? positions [[:goose :fox] [:boat :you :corn] []])))))
 
+(deftest test-generate-mid-to-left-positions
+  (testing "should generate correct positions when moving :you mid to left"
+    (let [positions (set (generate-mid-to-left-positions [:goose] [:boat :you :corn] [:fox]))]
+      (is (contains? positions [[:goose :you] [:boat :corn] [:fox]]))
+      (is (contains? positions [[:goose :you :corn] [:boat] [:fox]])))))
+
+(deftest test-generate-mid-to-right-positions
+  (testing "should generate correct positions when moving :you mid to right"
+    (let [positions (set (generate-mid-to-right-positions [:goose] [:boat :you :corn] [:fox]))]
+      (is (contains? positions [[:goose] [:boat] [:fox :you :corn]]))
+      (is (contains? positions [[:goose] [:boat :corn] [:fox :you]])))))
+
+(deftest test-generate-mid-to-left-right-positions
+  (testing "should generate correct positions when moving :you mid to left and right"
+    (let [positions (set (generate-mid-to-left-right-positions [:goose] [:boat :you :corn] [:fox]))]
+      (is (contains? positions [[:goose :you] [:boat :corn] [:fox]]))
+      (is (contains? positions [[:goose :you :corn] [:boat] [:fox]]))
+      (is (contains? positions [[:goose] [:boat] [:fox :you :corn]]))
+      (is (contains? positions [[:goose] [:boat :corn] [:fox :you]])))))
+
 (deftest test-valid-position?
   (testing "should return true for valid positions"
     (is (true? (valid-position? [[:fox :corn] [:boat :you] [:goose]])))

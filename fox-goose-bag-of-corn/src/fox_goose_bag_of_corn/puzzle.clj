@@ -47,10 +47,29 @@
   "Generate all positions we can reach by performing moves from right to mid"
   [left mid right]
   (map 
-    #(conj [] (nth % 2) (nth % 1) (nth % 0)) ;finally switch left and right
-    (generate-left-to-mid-positions right mid left))) ;right-to-mid is same as left-to-mid with left, right switched
+    #(conj [] (nth % 2) (nth % 1) (nth % 0)) ;switch sides in each generated position 
+    (generate-left-to-mid-positions right mid left))) ;right-to-mid is the same as left-to-mid with the sides switched
 
-;gen moves mid to left and right
+(defn generate-mid-to-left-positions
+  "Generate all positions we can reach by performing moves from mid to left"
+  [left mid right]
+  (let [options (remove #{:you :boat} mid)
+        full-positions (map #(conj [] (conj left :you %) (conj (remove #{%} options) :boat) right) options)]
+    (conj full-positions (conj [] (conj left :you) (conj options :boat) right))))
+        
+(defn generate-mid-to-right-positions
+  "Generate all positions we can reach by performing moves from mid to right"
+  [left mid right]
+  (map 
+    #(conj [] (nth % 2) (nth % 1) (nth % 0)) ;switch sides in each generated position 
+    (generate-mid-to-left-positions right mid left))) ;mid-to-right is the same as mid-to-left with the sides switched
+
+(defn generate-mid-to-left-right-positions
+  "Generate all positions we can reach by performing moves from mid to left and right"
+  [left mid right]
+  (concat 
+    (generate-mid-to-left-positions left mid right)
+    (generate-mid-to-right-positions left mid right)))
 
 (defn generate-positions
   "Generate all valid positions we can reach from a given position
@@ -61,7 +80,7 @@
         right (nth position 2)]
     (cond
       (some #{:you} left) (filter valid-position? (generate-left-to-mid-positions left mid right))
-      (some #{:you} right) "generate moves from right to mid"
+      (some #{:you} right) (filter valid-position? (generate-right-to-mid-positions left mid right))
       :else "generate moves from mid to left,right")))
 
 (defn river-crossing-plan 
