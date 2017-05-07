@@ -65,6 +65,17 @@
       (is (contains? positions [[] [:boat :you :goose] [:corn :fox]]))
       (is (contains? positions [[:goose] [:boat :you] [:corn :fox]])))))
 
+(deftest test-generate-right-to-mid-positions
+  (testing "should generate correct positions when moving :you right to mid"
+    (let [positions (set (generate-right-to-mid-positions [] [:boat] [:fox :you :corn :goose]))]
+      (is (contains? positions [[] [:boat :you] [:fox :corn :goose]]))
+      (is (contains? positions [[] [:boat :you :fox] [:corn :goose]]))
+      (is (contains? positions [[] [:boat :you :corn] [:fox :goose]]))
+      (is (contains? positions [[] [:boat :you :goose] [:fox :corn]])))
+    (let [positions (set (generate-right-to-mid-positions [:goose :fox] [:boat] [:you :corn]))]
+      (is (contains? positions [[:goose :fox] [:boat :you] [:corn]]))
+      (is (contains? positions [[:goose :fox] [:boat :you :corn] []])))))
+
 (deftest test-valid-position?
   (testing "should return true for valid positions"
     (is (true? (valid-position? [[:fox :corn] [:boat :you] [:goose]])))
@@ -72,14 +83,18 @@
     (is (true? (valid-position? [[:fox] [:boat] [:goose :you :corn]])))
     (is (true? (valid-position? [[:you :goose] [:boat] [:corn :fox]])))
     (is (true? (valid-position? [[] [:boat :you :goose] [:corn :fox]])))
-    (is (true? (valid-position? [[:goose] [:boat :you] [:corn :fox]]))))
+    (is (true? (valid-position? [[:goose] [:boat :you] [:corn :fox]])))
+    (is (true? (valid-position? [[] [:boat :you :goose] [:fox :corn]]))))
   (testing "should return false for invalid positions"
     (is (false? (valid-position? [[] [] []])))
     (is (false? (valid-position? [[:fox :goose] [:boat] [:you :corn]])))
     (is (false? (valid-position? [[:fox :goose] [:boat :you :corn] []])))
     (is (false? (valid-position? [[] [:boat :you :fox] [:goose :corn]])))
     (is (false? (valid-position? [[:corn :goose] [:boat :you :fox] []])))
-    (is (false? (valid-position? [[:fox :goose :corn] [:boat :you] []])))))
+    (is (false? (valid-position? [[:fox :goose :corn] [:boat :you] []])))
+    (is (false? (valid-position? [[] [:boat :you] [:fox :corn :goose]])))
+    (is (false? (valid-position? [[:goose :fox] [:boat :you] [:corn]])))
+    (is (false? (valid-position? [[:goose :fox] [:boat :you :corn] []])))))
 
 (comment
   (deftest test-river-crossing-plan

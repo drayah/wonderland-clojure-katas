@@ -43,7 +43,12 @@
         full-positions (map #(conj % right) partial-positions)]
     (conj full-positions (conj [] options (conj mid :you) right))))
 
-;gen moves right to mid
+(defn generate-right-to-mid-positions
+  "Generate all positions we can reach by performing moves from right to mid"
+  [left mid right]
+  (map 
+    #(conj [] (nth % 2) (nth % 1) (nth % 0)) ;finally switch left and right
+    (generate-left-to-mid-positions right mid left))) ;right-to-mid is same as left-to-mid with left, right switched
 
 ;gen moves mid to left and right
 
