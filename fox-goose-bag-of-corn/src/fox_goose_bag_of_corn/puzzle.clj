@@ -86,17 +86,30 @@
   [coll]
   (into [] (map #(into #{} %) coll)))
 
+(defn next-position-for-route
+  "Return a position from positions that can be added to route"
+  [positions route deadends]
+  (let [candidates (map #(normalized-position %) positions)
+        route (map #(normalized-position %) route)
+        deadends (map #(normalized-position %) deadends)
+        candidate (->> (filter #(not (some #{%} route)) candidates)
+                       (filter #(not (some #{%} deadends)))
+                       (first))]
+    (into [] (map #(into [] %) candidate)))) ;transform vector of set to vector of vectors
+
 (defn generate-plan
   "Generate a river crossing solution"
-  [route goal]
-  (println goal)
-  (println (last route))
-  (println (normalized-position goal))
-  (normalized-position (last route)))
-
-(def end-pos [[[] [:boat] [:fox :goose :corn :you]]])
+  [route goal deadends]
+  (let [current (last route)]
+    (if (= (normalized-position current) (normalized-position goal))
+      route
+      (let [valid-positions (generate-positions current)
+            next-position (next-position-for-route valid-positions route deadends)]
+        (if (empty? next-position) ;reached a dead-end, remember it
+          (recur (into [] (remove #{current} route)) goal (conj deadends current))
+          (recur (conj route next-position) goal deadends))))))
 
 (defn river-crossing-plan 
   "Generate the river crossing"
   []
-  (generate-plan start-pos [[] [:boat] [:fox :goose :corn :you]]))
+  (generate-plan start-pos [[] [:boat] [:fox :goose :corn :you]] []))

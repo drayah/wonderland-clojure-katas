@@ -121,32 +121,44 @@
     (is (= [#{:b :a} #{:d :c} #{:e}] (normalized-position [[:a :b] [:c :d] [:e]])))
     (is (= [#{:a :b} #{:c :d} #{}] (normalized-position [[:a :b] [:c :d] []])))))
 
-(comment
-  (deftest test-river-crossing-plan
-    (let [crossing-plan (map (partial map set) (river-crossing-plan))]
-      (testing "you begin with the fox, goose and corn on one side of the river"
-        (is (= [#{:you :fox :goose :corn} #{:boat} #{}]
-              (first crossing-plan))))
-      (testing "you end with the fox, goose and corn on one side of the river"
-        (is (= [#{} #{:boat} #{:you :fox :goose :corn}]
-              (last crossing-plan))))
-      (testing "things are safe"
-        (let [left-bank (map first crossing-plan)
-              right-bank (map last crossing-plan)]
-          (testing "the fox and the goose should never be left alone together"
-            (is (empty?)
-                (filter #(= % #{:fox :goose}) (concat left-bank right-bank))))
-          (testing "the goose and the corn should never be left alone together"
-            (is (empty?)
-                (filter #(= % #{:goose :corn}) (concat left-bank right-bank))))))
-      (testing "The boat can carry only you plus one other"
-        (let [boat-positions (map second crossing-plan)]
-          (is (empty?)
-              (filter #(> (count %) 3) boat-positions))))
-      (testing "moves are valid"
-        (let [left-moves (map first crossing-plan)
-              middle-moves (map second crossing-plan)
-              right-moves (map last crossing-plan)]
-          (reduce validate-move left-moves)
-          (reduce validate-move middle-moves)
-          (reduce validate-move right-moves))))))
+(deftest test-next-position-for-route
+  (testing "should return next position from list of positions"
+    (is (= [[:x] [:y] [:z]] 
+           (next-position-for-route 
+             [[[:x] [:y] [:z]] [[:b :a] [] [:d]]] 
+             [[[:a :b] [] [:d]] [[:c :y] [:e] [:f]]]
+             [])))
+    (is (= [[:a] [:b] [:c]]
+           (next-position-for-route
+             [[[:x] [:y] [:z]] [[:b :a] [] [:d]] [[:a] [:b] [:c]]]
+             [[[:a :b] [] [:d]] [[:c :y] [:e] [:f]]] 
+             [[[:x] [:y] [:z]]])))))
+
+(deftest test-river-crossing-plan
+  (let [crossing-plan (map (partial map set) (river-crossing-plan))]
+    (testing "you begin with the fox, goose and corn on one side of the river"
+      (is (= [#{:you :fox :goose :corn} #{:boat} #{}]
+             (first crossing-plan))))
+    (testing "you end with the fox, goose and corn on one side of the river"
+      (is (= [#{} #{:boat} #{:you :fox :goose :corn}]
+             (last crossing-plan))))
+    (testing "things are safe"
+      (let [left-bank (map first crossing-plan)
+            right-bank (map last crossing-plan)]
+        (testing "the fox and the goose should never be left alone together"
+          (is (empty?
+               (filter #(= % #{:fox :goose}) (concat left-bank right-bank)))))
+        (testing "the goose and the corn should never be left alone together"
+          (is (empty?
+               (filter #(= % #{:goose :corn}) (concat left-bank right-bank)))))))
+    (testing "The boat can carry only you plus one other"
+      (let [boat-positions (map second crossing-plan)]
+        (is (empty?
+             (filter #(> (count %) 3) boat-positions)))))
+    (testing "moves are valid"
+      (let [left-moves (map first crossing-plan)
+            middle-moves (map second crossing-plan)
+            right-moves (map last crossing-plan)]
+        (reduce validate-move left-moves)
+        (reduce validate-move middle-moves)
+        (reduce validate-move right-moves)))))
