@@ -16,6 +16,8 @@
         w2 (seq w2)]
     (map #(if (= %1 %2) 0 1) w1 w2)))
 
+;defn distance (sum of character-differences)
+
 (defn doublets [word1 word2]
   (println words)
   "make me work")
