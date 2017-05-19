@@ -22,6 +22,18 @@
     (is (= [0 0 0 0]
            (character-differences "book" "book")))))
 
+(deftest test-distance
+  (testing "should correctly calculate sum of character differences"
+    (is (= 1 (distance [1 0 0 0])))
+    (is (= 1 (distance [0 1 0 0])))
+    (is (= 1 (distance [0 0 1 0])))
+    (is (= 1 (distance [0 0 1 0])))
+    (is (= 2 (distance [1 0 1 0])))
+    (is (= 2 (distance [0 1 0 1])))
+    (is (= 3 (distance [1 0 1 1])))
+    (is (= 3 (distance [1 1 0 1])))
+    (is (= 4 (distance [1 1 1 1])))))
+
 (comment
   (deftest solver-test
     (testing "with word links found"

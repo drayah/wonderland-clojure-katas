@@ -16,7 +16,11 @@
         w2 (seq w2)]
     (map #(if (= %1 %2) 0 1) w1 w2)))
 
-;defn distance (sum of character-differences)
+(defn distance
+  "Given a sequence of character differences returns the
+  total number of differing characters in given seq"
+  [diffs]
+  (reduce (fn [sum current] (+ sum current)) diffs))
 
 (defn doublets [word1 word2]
   (println words)
