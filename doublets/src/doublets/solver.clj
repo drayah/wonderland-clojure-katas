@@ -22,6 +22,14 @@
   [diffs]
   (reduce (fn [sum current] (+ sum current)) diffs))
 
+(defn neighbors
+  "Returns a sequence of words 1 character difference
+  away from given word"
+  [word seen]
+  (let [same-lengths (filter #(= (count %) (count word)) words)
+        candidates (filter #(= (distance (character-differences % word)) 1) same-lengths)]
+    (filter #(not (some #{%} seen)) candidates)))
+
 (defn doublets [word1 word2]
   (println words)
   "make me work")

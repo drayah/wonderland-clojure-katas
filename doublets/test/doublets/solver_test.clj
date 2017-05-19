@@ -34,6 +34,19 @@
     (is (= 3 (distance [1 1 0 1])))
     (is (= 4 (distance [1 1 1 1])))))
 
+(deftest test-neighbors
+  (testing "should have correct neighbors"
+    (is (= ["heal"] 
+           (neighbors "head" [])))
+    (is (= ["heal"] 
+           (neighbors "head" ["tell"])))
+    (is (= [] 
+           (neighbors "head" ["heal" "deal"])))
+    (is (= ["head" "teal"]
+           (neighbors "heal" [])))
+    (is (= ["teal"]
+           (neighbors "heal" ["head"])))))
+
 (comment
   (deftest solver-test
     (testing "with word links found"
