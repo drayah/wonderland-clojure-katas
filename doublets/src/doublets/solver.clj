@@ -30,6 +30,20 @@
         candidates (filter #(= (distance (character-differences % word)) 1) same-lengths)]
     (filter #(not (some #{%} seen)) candidates)))
 
-(defn doublets [word1 word2]
-  (println words)
-  "make me work")
+(defn search
+  "Recursively build a path to target word"
+  [path target deadends]
+  (let [current (first path)]
+    (cond
+      (nil? current) []                   ;path to target couldn't be found
+      (= current target) (reverse path)   ;found target so return path
+      :else (let [neighbors (neighbors current (concat path deadends))]
+              (if (empty? neighbors) 
+                (recur (rest path) target (conj deadends current))
+                (let [candidate (first neighbors)]
+                  (recur (conj path candidate) target deadends)))))))
+
+(defn doublets 
+  "Return links between words"
+  [word1 word2]
+  (search (conj nil word1) word2 []))
